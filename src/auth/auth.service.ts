@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { AuthDto } from './dto/auth.dto';
 import {RestaurantService} from "../restaurant/restaurant.service";
+import {LoginResponseDto} from "./dto/login.dto";
 
 @Injectable()
 export class AuthService {
@@ -10,7 +11,7 @@ export class AuthService {
 
   constructor(
       private configService: ConfigService,
-      private readonly restaurantService: RestaurantService // <--- CRUCIAL: Añadir aquí
+      private readonly restaurantService: RestaurantService
   ) {
     const supabaseUrl = this.configService.get<string>('SUPABASE_URL');
     const supabaseKey = this.configService.get<string>('SUPABASE_KEY');
@@ -48,16 +49,38 @@ export class AuthService {
     };
   }
 
-  async login(authDto: AuthDto) {
+  async login(authDto: AuthDto): Promise<LoginResponseDto> {
     const { data, error } = await this.supabase.auth.signInWithPassword({
       email: authDto.email,
       password: authDto.password,
     });
 
-    if (error) {
-      throw new UnauthorizedException(error.message);
+    if (error || !data.session) {
+      throw new UnauthorizedException(error?.message || 'Credenciales inválidas');
     }
 
-    return { message: 'Login exitoso', session: data.session };
+    const supabaseUser = data.user;
+    const session = data.session;
+
+    let profile;
+    try {
+      profile = await this.restaurantService.forwardRequest(
+          'GET',
+          `/restaurant/api/v1/users/by-auth/${supabaseUser.id}`
+      );
+    } catch (err) {
+      throw new InternalServerErrorException('No se encontró el perfil de restaurante para este usuario');
+    }
+
+    return {
+      profileId: profile.id,
+      userId: supabaseUser.id,
+      accessToken: session.access_token,
+      tokenType: session.token_type,
+      expiresIn: session.expires_in,
+      refreshToken: session.refresh_token,
+      fullName: profile.fullName,
+      email: profile.email,
+    };
   }
 }
