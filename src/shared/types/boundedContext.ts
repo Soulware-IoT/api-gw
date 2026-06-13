@@ -1,0 +1,1 @@
+export type BoundedContext = 'Security' | 'Internal Control';
