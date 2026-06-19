@@ -19,7 +19,6 @@ export class OrganizationController {
   // No org context yet — just auth
 
   @Post('organizations')
-  @UseGuards(AdminGuard)
   create(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }

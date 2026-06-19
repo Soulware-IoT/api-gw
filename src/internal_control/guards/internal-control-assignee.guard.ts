@@ -5,7 +5,7 @@ import { JwtClaims } from '../../shared/types/jwtClaims';
 
 @Injectable()
 export class InternalControlAssigneeGuard extends OrganizationRolesExtractor implements CanActivate {
-  private readonly boundedContext: BoundedContext = 'Internal Control';
+  private readonly boundedContext: BoundedContext = 'internal_control';
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
