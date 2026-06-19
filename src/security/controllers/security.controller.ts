@@ -27,4 +27,22 @@ export class SecurityController {
   getDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
+
+  @Post('organizations/:organizationId/edge-device')
+  @UseGuards(AdminGuard)
+  claimEdgeDevice(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
+
+  @Get('organizations/:organizationId/edge-device')
+  @UseGuards(SecurityLieutenantGuard)
+  getEdgeDeviceByOrganization(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
+
+  @Get('edge-devices/:id')
+  @UseGuards(SecurityAssigneeGuard)
+  getEdgeDevice(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
 }
