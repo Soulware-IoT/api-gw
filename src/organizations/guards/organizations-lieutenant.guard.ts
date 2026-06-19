@@ -28,7 +28,7 @@ import { JwtClaims } from '../../shared/types/jwtClaims';
 
 @Injectable()
 export class OrganizationLieutenantGuard extends OrganizationRolesExtractor implements CanActivate {
-  private readonly boundedContext: BoundedContext = 'Security';
+  private readonly boundedContext: BoundedContext = 'security';
 
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();

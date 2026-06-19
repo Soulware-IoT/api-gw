@@ -1,1 +1,1 @@
-export type BoundedContext = 'Security' | 'Internal Control';
+export type BoundedContext = 'security' | 'iot' | 'internal_control';
