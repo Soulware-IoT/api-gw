@@ -9,9 +9,17 @@ import { OrganizationsService } from '../service/organizations.service';
 export class OrganizationController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
+  // profiles
+
+  @Get('profiles/:id/invitations')
+  getInvitationByProfile(@Req() req: any) {
+    return this.organizationsService.forwardRequest(req);
+  }
+
   // No org context yet — just auth
 
   @Post('organizations')
+  @UseGuards(AdminGuard)
   create(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
