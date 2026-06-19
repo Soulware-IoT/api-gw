@@ -4,4 +4,4 @@ import { HttpModule } from '@nestjs/axios';
 @Module({
   imports: [HttpModule],
 })
-export class SecurityModule {}
+export class ProfilesModule {}
