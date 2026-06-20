@@ -29,6 +29,14 @@ export class SecurityController {
     return this.securityService.forwardRequest(req);
   }
 
+  // No organizationId in the path — the client must pass ?organizationId= so
+  // the guard can resolve the membership (same as GET by id above).
+  @Patch(SecurityRoutes.device)
+  @UseGuards(SecurityLieutenantGuard)
+  updateDevice(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
+
   @Post(SecurityRoutes.organizationEdgeDevice)
   @UseGuards(AdminGuard)
   claimEdgeDevice(@Req() req: any) {
@@ -44,6 +52,14 @@ export class SecurityController {
   @Get(SecurityRoutes.edgeDevice)
   @UseGuards(SecurityAssigneeGuard)
   getEdgeDevice(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
+
+  // No organizationId in the path — the client must pass ?organizationId= so
+  // the guard can resolve the membership (same as GET by id above).
+  @Patch(SecurityRoutes.edgeDevice)
+  @UseGuards(SecurityLieutenantGuard)
+  updateEdgeDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 }
