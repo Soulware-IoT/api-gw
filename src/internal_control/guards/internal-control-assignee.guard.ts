@@ -2,6 +2,7 @@ import { CanActivate, ExecutionContext, ForbiddenException, Injectable } from '@
 import { OrganizationRolesExtractor } from '../../shared/guards/organization-roles-extractor';
 import { BoundedContext } from '../../shared/types/boundedContext';
 import { JwtClaims } from '../../shared/types/jwtClaims';
+import { translate } from '../../shared/i18n/translate';
 
 @Injectable()
 export class InternalControlAssigneeGuard extends OrganizationRolesExtractor implements CanActivate {
@@ -10,15 +11,16 @@ export class InternalControlAssigneeGuard extends OrganizationRolesExtractor imp
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
     const payload: JwtClaims = request.user;
+    const lang: string = request.headers?.['accept-language'];
     const organizationId: string = this.extractOrganizationId(request);
 
     const membership = this.extractClaims(payload, organizationId);
     if (!membership) {
-      throw new ForbiddenException('Not a member of this organization');
+      throw new ForbiddenException(translate('org.not_member', lang));
     }
 
     if (!this.hasMinimumRole(membership.permissions[this.boundedContext], 'assignee')) {
-      throw new ForbiddenException('Insufficient permissions');
+      throw new ForbiddenException(translate('org.insufficient_permissions', lang));
     }
 
     return true;

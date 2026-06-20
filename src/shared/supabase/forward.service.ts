@@ -5,6 +5,7 @@ import { AxiosError } from 'axios';
 import { lastValueFrom } from 'rxjs';
 import { JwtClaims } from '../types/jwtClaims';
 import { GatewayHeadersBuilder } from './gateway-headers.builder';
+import { translate } from '../i18n/translate';
 
 @Injectable()
 export class ForwardService {
@@ -31,11 +32,11 @@ export class ForwardService {
 
       return response.data;
     } catch (error) {
-      throw this.toHttpException(error);
+      throw this.toHttpException(error, req.headers?.['accept-language']);
     }
   }
 
-  private toHttpException(error: unknown): HttpException {
+  private toHttpException(error: unknown, acceptLanguage?: string): HttpException {
     const axiosError = error as AxiosError;
 
     // Backend responded with a non-2xx — relay its status and body verbatim
@@ -48,6 +49,9 @@ export class ForwardService {
     }
 
     // No response: backend unreachable, DNS failure, or timeout.
-    return new HttpException('Upstream service unavailable', 502);
+    return new HttpException(
+      translate('gateway.upstream_unavailable', acceptLanguage),
+      502,
+    );
   }
 }
