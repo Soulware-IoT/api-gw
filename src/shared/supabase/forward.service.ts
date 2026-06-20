@@ -4,22 +4,20 @@ import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { lastValueFrom } from 'rxjs';
 import { JwtClaims } from '../types/jwtClaims';
-
-// Hop-by-hop / body-derived headers that must not be forwarded as-is — the
-// outbound request recomputes them (a stale content-length truncates the body).
-const EXCLUDED_REQUEST_HEADERS = ['host', 'content-length', 'connection'];
+import { GatewayHeadersBuilder } from './gateway-headers.builder';
 
 @Injectable()
 export class ForwardService {
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
+    private readonly headersBuilder: GatewayHeadersBuilder,
   ) {}
 
-  async forward(req: any, serviceUrlKey: string): Promise<any> {
-    const serviceUrl = this.configService.getOrThrow<string>(serviceUrlKey);
+  async forward(req: any): Promise<any> {
+    const serviceUrl = this.configService.getOrThrow<string>('BACKEND_URL');
     const payload: JwtClaims = req.user;
-    const headers = this.buildHeaders(req.headers, payload);
+    const headers = this.headersBuilder.build(req.headers, payload);
 
     try {
       const response = await lastValueFrom(
@@ -35,20 +33,6 @@ export class ForwardService {
     } catch (error) {
       throw this.toHttpException(error);
     }
-  }
-
-  private buildHeaders(
-    incoming: Record<string, any>,
-    payload: JwtClaims,
-  ): Record<string, any> {
-    const headers: Record<string, any> = {};
-    for (const [key, value] of Object.entries(incoming ?? {})) {
-      if (!EXCLUDED_REQUEST_HEADERS.includes(key.toLowerCase())) {
-        headers[key] = value;
-      }
-    }
-    headers['X-Requester-Id'] = payload.sub;
-    return headers;
   }
 
   private toHttpException(error: unknown): HttpException {

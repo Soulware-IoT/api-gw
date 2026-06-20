@@ -4,43 +4,44 @@ import { AdminGuard } from '../../shared/guards/admin.guard';
 import { SecurityLieutenantGuard } from '../guards/security-lieutenant.guard';
 import { SecurityAssigneeGuard } from '../guards/security-assignee.guard';
 import { SecurityService } from "../service/security.service";
+import { SecurityRoutes } from '../security.routes';
 
 @Controller()
 @UseGuards(AuthenticationGuard)
 export class SecurityController {
   constructor(private readonly securityService: SecurityService) {}
 
-  @Post('organizations/:organizationId/devices')
+  @Post(SecurityRoutes.organizationDevices)
   @UseGuards(AdminGuard)
   register(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/devices')
+  @Get(SecurityRoutes.organizationDevices)
   @UseGuards(SecurityLieutenantGuard)
   getDevices(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 
-  @Get('devices/:deviceId')
+  @Get(SecurityRoutes.device)
   @UseGuards(SecurityAssigneeGuard)
   getDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 
-  @Post('organizations/:organizationId/edge-device')
+  @Post(SecurityRoutes.organizationEdgeDevice)
   @UseGuards(AdminGuard)
   claimEdgeDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/edge-device')
+  @Get(SecurityRoutes.organizationEdgeDevice)
   @UseGuards(SecurityLieutenantGuard)
   getEdgeDeviceByOrganization(@Req() req: any) {
     return this.securityService.forwardRequest(req);
   }
 
-  @Get('edge-devices/:id')
+  @Get(SecurityRoutes.edgeDevice)
   @UseGuards(SecurityAssigneeGuard)
   getEdgeDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
