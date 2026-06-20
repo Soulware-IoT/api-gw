@@ -2,11 +2,11 @@
 /// Centralized so every Security endpoint follows a consistent nomenclature.
 export const SecurityRoutes = {
   /// POST claim + GET list — IoT devices owned by an organization.
-  organizationDevices: 'organizations/:organizationId/devices',
-  /// GET a single IoT device by id.
-  device: 'devices/:deviceId',
+  organizationDevices: 'organizations/:organizationId/iot-devices',
+  /// GET + PATCH a single IoT device by id.
+  device: 'iot-devices/:id',
   /// POST claim + GET by organization — the org's edge device.
   organizationEdgeDevice: 'organizations/:organizationId/edge-device',
-  /// GET a single edge device by id.
-  edgeDevice: 'edge-devices/:id',
+  /// GET + PATCH a single edge device by id.
+  edgeDevice: 'edge-device/:id',
 } as const;
