@@ -6,6 +6,6 @@ export class InternalControlService {
   constructor(private readonly forwardService: ForwardService) {}
 
   forwardRequest(req: any): Promise<any> {
-    return this.forwardService.forward(req, 'INTERNAL_CONTROL_SERVICE_URL');
+    return this.forwardService.forward(req);
   }
 }

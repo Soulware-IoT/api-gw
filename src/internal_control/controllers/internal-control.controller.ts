@@ -4,6 +4,7 @@ import { AdminGuard } from '../../shared/guards/admin.guard';
 import { InternalControlLieutenantGuard } from '../guards/internal-control-lieutenant.guard';
 import { InternalControlAssigneeGuard } from '../guards/internal-control-assignee.guard';
 import { InternalControlService } from '../service/internal-control.service';
+import { InternalControlRoutes } from '../internal-control.routes';
 
 @Controller()
 @UseGuards(AuthenticationGuard)
@@ -12,25 +13,25 @@ export class InternalControlController {
 
   // --- Control Processes ---
 
-  @Post('organizations/:organizationId/control-processes')
+  @Post(InternalControlRoutes.controlProcesses)
   @UseGuards(AdminGuard)
   createControlProcess(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/control-processes')
+  @Get(InternalControlRoutes.controlProcesses)
   @UseGuards(InternalControlLieutenantGuard)
   listControlProcesses(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
   }
 
-  @Get('control-processes/:id')
+  @Get(InternalControlRoutes.controlProcess)
   @UseGuards(InternalControlAssigneeGuard)
   getControlProcessById(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
   }
 
-  @Patch('control-processes/:id')
+  @Patch(InternalControlRoutes.controlProcess)
   @UseGuards(AdminGuard)
   renameControlProcess(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
@@ -38,19 +39,19 @@ export class InternalControlController {
 
   // --- Control Formats ---
 
-  @Post('control-processes/:processId/formats')
+  @Post(InternalControlRoutes.processFormats)
   @UseGuards(AdminGuard)
   createControlFormat(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
   }
 
-  @Get('control-processes/:processId/formats')
+  @Get(InternalControlRoutes.processFormats)
   @UseGuards(InternalControlLieutenantGuard)
   listControlFormats(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);
   }
 
-  @Get('formats/:id')
+  @Get(InternalControlRoutes.format)
   @UseGuards(InternalControlAssigneeGuard)
   getControlFormatById(@Req() req: any) {
     return this.internalControlService.forwardRequest(req);

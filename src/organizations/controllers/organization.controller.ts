@@ -3,6 +3,7 @@ import { AuthenticationGuard } from '../../shared/guards/authentication.guard';
 import { AdminGuard } from '../../shared/guards/admin.guard';
 import { OrganizationMemberGuard } from '../../shared/guards/organization-member.guard';
 import { OrganizationsService } from '../service/organizations.service';
+import { OrganizationRoutes } from '../organizations.routes';
 
 @Controller()
 @UseGuards(AuthenticationGuard)
@@ -11,54 +12,54 @@ export class OrganizationController {
 
   // profiles
 
-  @Get('profiles/:id/invitations')
+  @Get(OrganizationRoutes.profileInvitations)
   getInvitationByProfile(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
   // No org context yet — just auth
 
-  @Post('organizations')
+  @Post(OrganizationRoutes.organizations)
   create(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Get('invitations/:id')
+  @Get(OrganizationRoutes.invitation)
   getInvitation(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Post('invitations/:id/accept')
+  @Post(OrganizationRoutes.invitationAccept)
   acceptInvitation(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Post('invitations/:id/decline')
+  @Post(OrganizationRoutes.invitationDecline)
   declineInvitation(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
   // Org context — member read
 
-  @Get('organizations/:organizationId')
+  @Get(OrganizationRoutes.organization)
   @UseGuards(OrganizationMemberGuard)
   getOrganization(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/invitations')
+  @Get(OrganizationRoutes.invitations)
   @UseGuards(OrganizationMemberGuard)
   listInvitations(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/members')
+  @Get(OrganizationRoutes.members)
   @UseGuards(OrganizationMemberGuard)
   listMembers(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Get('organizations/:organizationId/members/:memberId')
+  @Get(OrganizationRoutes.member)
   @UseGuards(OrganizationMemberGuard)
   getMember(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
@@ -66,31 +67,31 @@ export class OrganizationController {
 
   // Org context — admin only
 
-  @Patch('organizations/:organizationId')
+  @Patch(OrganizationRoutes.organization)
   @UseGuards(AdminGuard)
   updateOrganization(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Delete('organizations/:organizationId')
+  @Delete(OrganizationRoutes.organization)
   @UseGuards(AdminGuard)
   deleteOrganization(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Post('organizations/:organizationId/invitations')
+  @Post(OrganizationRoutes.invitations)
   @UseGuards(AdminGuard)
   invite(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Delete('organizations/:organizationId/members/:memberId')
+  @Delete(OrganizationRoutes.member)
   @UseGuards(AdminGuard)
   removeMember(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 
-  @Put('organizations/:organizationId/members/:memberId/permissions')
+  @Put(OrganizationRoutes.memberPermissions)
   @UseGuards(AdminGuard)
   updatePermissions(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);

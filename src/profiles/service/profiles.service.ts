@@ -6,6 +6,6 @@ export class ProfilesService {
   constructor(private readonly forwardService: ForwardService) {}
 
   forwardRequest(req: any): Promise<any> {
-    return this.forwardService.forward(req, 'PROFILES_SERVICE_URL');
+    return this.forwardService.forward(req);
   }
 }
