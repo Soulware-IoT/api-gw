@@ -1,4 +1,5 @@
 import { BadRequestException } from '@nestjs/common';
+import { translate } from '../i18n/translate';
 
 export abstract class OrganizationIdExtractor {
   protected extractOrganizationId(request: any): string {
@@ -9,7 +10,7 @@ export abstract class OrganizationIdExtractor {
 
     if (!organizationId) {
       throw new BadRequestException(
-        'organizationId is required',
+        translate('org.id_required', request.headers?.['accept-language']),
       );
     }
 
