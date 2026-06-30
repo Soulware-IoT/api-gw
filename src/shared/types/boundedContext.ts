@@ -1,1 +1,0 @@
-export type BoundedContext = 'security' | 'organizations' | 'internal_control' | 'profiles';

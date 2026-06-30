@@ -4,8 +4,17 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  if (!process.env.ALLOWED_ORIGINS) {
+    throw new Error('ALLOWED_ORIGINS env var is required');
+  }
+
+  const allowedOrigins = process.env.ALLOWED_ORIGINS
+    .split(',')
+    .map((o) => o.trim())
+    .filter(Boolean);
+
   app.enableCors({
-    origin: ['http://localhost:4200', 'https://cocina360.soulware.site'],
+    origin: allowedOrigins,
     allowedHeaders: [
       'Authorization',
       'Content-Type',

@@ -1,14 +1,11 @@
-import { Controller, Get, Patch, Req, UseGuards } from '@nestjs/common';
-import { AuthenticationGuard } from '../../shared/guards/authentication.guard';
+import { Controller, Get, Patch, Req } from '@nestjs/common';
 import { ProfilesService } from '../service/profiles.service';
 import { ProfileRoutes } from '../profiles.routes';
 
+/// Pure forwarder: authentication now lives in the backend.
 @Controller()
-@UseGuards(AuthenticationGuard)
 export class ProfileController {
   constructor(private readonly profilesService: ProfilesService) {}
-
-  // Profiles are not org-scoped — authentication is the only guard.
 
   @Get(ProfileRoutes.profiles)
   getByEmail(@Req() req: any) {

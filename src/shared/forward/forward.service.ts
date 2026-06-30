@@ -3,7 +3,6 @@ import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import { AxiosError } from 'axios';
 import { lastValueFrom } from 'rxjs';
-import { JwtClaims } from '../types/jwtClaims';
 import { GatewayHeadersBuilder } from './gateway-headers.builder';
 import { translate } from '../i18n/translate';
 
@@ -17,8 +16,7 @@ export class ForwardService {
 
   async forward(req: any): Promise<any> {
     const serviceUrl = this.configService.getOrThrow<string>('BACKEND_URL');
-    const payload: JwtClaims = req.user;
-    const headers = this.headersBuilder.build(req.headers, payload);
+    const headers = this.headersBuilder.build(req.headers);
 
     try {
       const response = await lastValueFrom(
