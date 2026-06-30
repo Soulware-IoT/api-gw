@@ -6,6 +6,7 @@ import { OrganizationsModule } from './organizations/organizations.module';
 import { SecurityModule } from './security/security.module';
 import { InternalControlModule } from './internal_control/internal-control.module';
 import { ProfilesModule } from './profiles/profiles.module';
+import { SubscriptionsModule } from './subscriptions/subscriptions.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProfilesModule } from './profiles/profiles.module';
     SecurityModule,
     InternalControlModule,
     ProfilesModule,
+    SubscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

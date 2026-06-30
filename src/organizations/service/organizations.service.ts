@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ForwardService } from '../../shared/supabase/forward.service';
+import { ForwardService } from '../../shared/forward/forward.service';
 
 @Injectable()
 export class OrganizationsService {

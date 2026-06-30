@@ -1,8 +1,8 @@
-import { Injectable } from "@nestjs/common";
-import { ForwardService } from "../../shared/forward/forward.service";
+import { Injectable } from '@nestjs/common';
+import { ForwardService } from '../../shared/forward/forward.service';
 
 @Injectable()
-export class ProfilesService {
+export class SubscriptionsService {
   constructor(private readonly forwardService: ForwardService) {}
 
   forwardRequest(req: any): Promise<any> {
