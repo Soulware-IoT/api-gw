@@ -27,6 +27,11 @@ export class SecurityController {
     return this.securityService.forwardRequest(req);
   }
 
+  @Post(SecurityRoutes.deviceServo)
+  servoCommand(@Req() req: any) {
+    return this.securityService.forwardRequest(req);
+  }
+
   @Post(SecurityRoutes.organizationEdgeDevice)
   claimEdgeDevice(@Req() req: any) {
     return this.securityService.forwardRequest(req);
