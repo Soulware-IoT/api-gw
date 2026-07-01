@@ -5,7 +5,6 @@ export const SubscriptionRoutes = {
   /// POST — replace the subscription plan.
   subscriptionPlan: 'organizations/:organizationId/subscription/plan',
   /// POST — lifecycle transitions (owner only).
-  subscriptionSuspend: 'organizations/:organizationId/subscription/suspend',
-  subscriptionCancel: 'organizations/:organizationId/subscription/cancel',
-  subscriptionReactivate: 'organizations/:organizationId/subscription/reactivate',
+  subscriptionDowngrade: 'organizations/:organizationId/subscription/downgrade',
+  subscriptionResume: 'organizations/:organizationId/subscription/resume',
 } as const;

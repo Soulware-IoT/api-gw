@@ -17,18 +17,13 @@ export class SubscriptionsController {
     return this.subscriptionsService.forwardRequest(req);
   }
 
-  @Post(SubscriptionRoutes.subscriptionSuspend)
-  suspend(@Req() req: any) {
+  @Post(SubscriptionRoutes.subscriptionDowngrade)
+  downgrade(@Req() req: any) {
     return this.subscriptionsService.forwardRequest(req);
   }
 
-  @Post(SubscriptionRoutes.subscriptionCancel)
-  cancel(@Req() req: any) {
-    return this.subscriptionsService.forwardRequest(req);
-  }
-
-  @Post(SubscriptionRoutes.subscriptionReactivate)
-  reactivate(@Req() req: any) {
+  @Post(SubscriptionRoutes.subscriptionResume)
+  resume(@Req() req: any) {
     return this.subscriptionsService.forwardRequest(req);
   }
 }
