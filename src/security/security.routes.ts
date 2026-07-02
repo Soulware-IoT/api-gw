@@ -5,8 +5,6 @@ export const SecurityRoutes = {
   organizationDevices: 'organizations/:organizationId/iot-devices',
   /// GET + PATCH a single IoT device by id.
   device: 'iot-devices/:id',
-  /// POST servo command to a specific IoT device.
-  deviceServo: 'iot-devices/:id/servo',
   /// POST claim + GET by organization — the org's edge device.
   organizationEdgeDevice: 'organizations/:organizationId/edge-device',
   /// GET + PATCH a single edge device by id.

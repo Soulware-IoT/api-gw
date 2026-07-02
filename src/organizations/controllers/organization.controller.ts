@@ -9,8 +9,8 @@ import { OrganizationRoutes } from '../organizations.routes';
 export class OrganizationController {
   constructor(private readonly organizationsService: OrganizationsService) {}
 
-  @Get(OrganizationRoutes.profileInvitations)
-  getInvitationByProfile(@Req() req: any) {
+  @Get(OrganizationRoutes.myInvitations)
+  listMyInvitations(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
   }
 

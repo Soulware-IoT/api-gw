@@ -12,12 +12,12 @@ export const OrganizationRoutes = {
   memberPermissions: 'organizations/:organizationId/members/:memberId/permissions',
   /// GET list + POST create invitations of an organization.
   invitations: 'organizations/:organizationId/invitations',
+  /// GET invitations addressed to the authenticated user (identity from JWT).
+  myInvitations: 'invitations',
   /// GET a single invitation by id.
   invitation: 'invitations/:id',
   /// POST accept an invitation.
   invitationAccept: 'invitations/:id/accept',
   /// POST decline an invitation.
   invitationDecline: 'invitations/:id/decline',
-  /// GET invitations addressed to a profile.
-  profileInvitations: 'profiles/:id/invitations',
 } as const;
