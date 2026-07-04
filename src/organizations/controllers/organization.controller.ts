@@ -54,6 +54,11 @@ export class OrganizationController {
     return this.organizationsService.forwardRequest(req);
   }
 
+  @Get(OrganizationRoutes.memberMe)
+  getMyMembership(@Req() req: any) {
+    return this.organizationsService.forwardRequest(req);
+  }
+
   @Get(OrganizationRoutes.member)
   getMember(@Req() req: any) {
     return this.organizationsService.forwardRequest(req);
