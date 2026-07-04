@@ -6,6 +6,8 @@ export const OrganizationRoutes = {
   organization: 'organizations/:organizationId',
   /// GET list members of an organization.
   members: 'organizations/:organizationId/members',
+  /// GET the caller's own membership in an organization (self-scoped).
+  memberMe: 'organizations/:organizationId/members/me',
   /// GET / DELETE a single member.
   member: 'organizations/:organizationId/members/:memberId',
   /// PUT a member's permissions.
