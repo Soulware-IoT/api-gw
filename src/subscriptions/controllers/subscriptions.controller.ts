@@ -12,6 +12,11 @@ export class SubscriptionsController {
     return this.subscriptionsService.forwardRequest(req);
   }
 
+  @Get(SubscriptionRoutes.subscriptionInvoices)
+  listInvoices(@Req() req: any) {
+    return this.subscriptionsService.forwardRequest(req);
+  }
+
   @Post(SubscriptionRoutes.subscriptionPlan)
   changePlan(@Req() req: any) {
     return this.subscriptionsService.forwardRequest(req);
