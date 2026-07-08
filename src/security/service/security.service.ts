@@ -8,4 +8,8 @@ export class SecurityService {
   forwardRequest(req: any): Promise<any> {
     return this.forwardService.forward(req);
   }
+
+  forwardStreamRequest(req: any, res: any): Promise<void> {
+    return this.forwardService.forwardStream(req, res);
+  }
 }
