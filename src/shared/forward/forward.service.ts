@@ -39,6 +39,46 @@ export class ForwardService {
     }
   }
 
+  /// Relays a long-lived streaming response (SSE) by piping the upstream body
+  /// straight into the client response, byte for byte and unbuffered — the
+  /// regular `forward` awaits the full body, which would hold SSE events
+  /// forever. No timeout: the connection legitimately stays open indefinitely,
+  /// kept alive by the backend's heartbeats. Closing either side tears down
+  /// the other.
+  async forwardStream(req: any, res: any): Promise<void> {
+    const serviceUrl = this.configService.getOrThrow<string>('BACKEND_URL');
+    const headers = this.headersBuilder.build(req.headers);
+
+    let upstream;
+    try {
+      upstream = await lastValueFrom(
+        this.httpService.request({
+          method: req.method,
+          url: `${serviceUrl}${req.url}`,
+          headers,
+          responseType: 'stream',
+          timeout: 0,
+        }),
+      );
+    } catch (error) {
+      const exception = this.toHttpException(error, req.headers?.['accept-language']);
+      res.status(exception.getStatus()).json(exception.getResponse());
+      return;
+    }
+
+    res.status(upstream.status);
+    res.setHeader(
+      'Content-Type',
+      upstream.headers['content-type'] ?? 'text/event-stream',
+    );
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('X-Accel-Buffering', 'no');
+    res.flushHeaders?.();
+
+    upstream.data.pipe(res);
+    res.on('close', () => upstream.data.destroy());
+  }
+
   private timeoutMs(): number {
     const configured = Number(this.configService.get('FORWARD_TIMEOUT_MS'));
     return Number.isFinite(configured) && configured > 0
